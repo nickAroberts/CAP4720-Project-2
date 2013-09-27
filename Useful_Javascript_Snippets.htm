@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function myFunction(e)
+{
+x=e.clientX;
+y=e.clientY;
+coor="Coordinates: (" + x + "," + y + ")";
+document.getElementById("demo").innerHTML=coor
+}
+
+function clearCoor()
+{
+document.getElementById("demo").innerHTML="";
+}
+
+function myFunction2()
+{
+alert("You pressed a key inside the input field");
+}
+</script>
+</head>
+<body style="margin:0px;">
+
+<div id="coordiv" style="width:199px;height:99px;border:1px solid" onmousemove="myFunction(event)" onmouseout="clearCoor()" onkeydown="myFunction2()"></div>
+<p id="demo"></p>
+
+</body>
+</html>
