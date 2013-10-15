@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head charset="UTF-8">
+	<title>Practice Assignment 5</title>
+        <link rel="stylesheet" type="text/css" href="CSS/The_Style.css">
+		<script src="lib/webgl-utils.js"></script>
+		<script src="lib/webgl-debug.js"></script>
+		<script src="lib/cuon-utils.js"></script>
+		<script src="lib/cuon-matrix.js"></script>
+		<script src="main/renderable.js"></script>
+		<script src="main/camera.js"></script>
+        <!--
+		<script src="resources/teapot.js"></script>
+		<script src="resources/skull.js"></script>
+		<script src="resources/cube.js"></script>
+        -->
+		<script src="main/PracticeAssignment5.js"></script>
+        
+	</head>
+
+	<body onLoad="main()" class="bodySettings">
+    <div class="header">
+    
+    
+        <!-- top banner-->
+        <div class="header">
+            <h1>Anthony Bolton, Brandon Hesher, Sammy Cosgrove, <br>Nick Roberts, Rob Louden, Jefferson Delgado</h1>
+        </div>
+		
+        <!-- Canvas element -->
+        <div class="myDiv">
+            <canvas id='myCanvas' width='400' height = '400'></canvas>
+        </div>
+        
+        <!-- message display area + related elements-->
+        <div class="myDiv">          
+            <textarea id="messageArea" rows="10" cols="49"></textarea><br>
+            <button type="button" id="messageClear">clear message</button>
+        </div>
+        
+		<!-- Control Panel -->
+        <div class="myDiv">
+            <table class="myTable">
+                <tr>
+                    <TH colspan="100%" style="font-size:30px;">Control Panel</TH>
+                </tr>
+                <tr>
+                    <td>Model:</td>
+                    <td>
+                        <select id="modelList" onchange="loadModel(this.value);">
+                            <option value='resources/House/models/model.json'>House</option>
+                            <!-- <option value='resources/Mystery/Models/model.json'>Mystery</option> -->
+                            <option value='resources/DijonPalais/models/model.json'>DijonPalais</option>
+                            <option value='resources/House_of_parliament/models/model.json'>House_of_parliament</option>
+                            <option value='resources/Shrine/models/model.json'>Shrine</option>
+                            <option value='resources/stBasil/models/model.json'>stBasil</option>
+                            <option value='resources/stPeter/models/model.json'>stPeter</option>
+                            
+                         </select>
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td style="padding:.5em;"><input type="radio" name="whichDrawable" value="teapot" onchange="setupWhatToDraw(this);">Teapot  </td>
+                    <td style="padding:.5em;"><input type="radio" name="whichDrawable" value="skull" onchange="setupWhatToDraw(this);">Skull  </td>
+                    <td style="padding:.5em;"><input type="radio" name="whichDrawable" value="cube" onchange="setupWhatToDraw(this);">Cube  </td>
+                 </tr> -->
+            </table>
+  
+            <table class="myTable">
+                <TR>
+                    <TD colspan=2>Camera Motion</TD>
+                    <TD colspan=2>Light Source</TD>
+                </TR>
+                <!--
+                <TR>
+                    <td>Fall Speed </td><td><input type="range" min="0.1" max="10" value="1" onchange="setFallValue(this.value)"></td>
+                </TR>
+                <TR>
+                    <td>Spawn Delay </td><td><input type="range" step="1" min="-19" max="20" value="0" onchange="setSpawnValue(this.value)"></td>
+                </TR>-->
+                <TR> 
+                    <td>Spin Rate </td><td> <input type="range" step="0.1" min="-10" max="10" value="1" onchange="setSpinValue(this.value)"></td>
+                    <td>Intensity</td><td> <input type="range" step="0.01" min="0" max="1" value="1" onchange="setMyIntensity(this.value)"></td>
+                </TR>
+                
+                <TR>
+                    <td>Near Plane </td><td> <input type="range" step="0.01" min=".001" max="1.2" value=".9" onchange="setMyNear(this.value)"></td>
+                    <td>Red</td><td> <input type="range" step="0.01" min="0" max="1" value="1" onchange="setMyR(this.value)"></td>
+                </TR>
+                
+                <TR> 
+                    <td>Far Plane </td><td> <input type="range" step="0.01" min="2" max="4" value="3" onchange="setMyFar(this.value)"></td>
+                    <td>Green</td><td> <input type="range" step="0.01" min="0" max="1" value="1" onchange="setMyG(this.value)"></td>
+                </TR>
+                
+                <TR>
+                    <td>FOV </td><td> <input type="range" step="1" min="1" max="120" value="32" onchange="setMyFOV(this.value)"></td>
+                    <td>Blue</td><td> <input type="range" step="0.01" min="0" max="1" value="1" onchange="setMyB(this.value)"></td>
+                </TR>
+            </table>
+        </div>
+        <!--
+		<select id="menu" onchange="menuHandler();"></select><br/>
+		<input type="checkbox" value="diffuse" onclick="toggleLightingFlag(this);">Diffuse
+		<input type="checkbox" value="specular" onclick="toggleLightingFlag(this);">Specular<br/>
+		<input type="radio" name="renderingMode" value="wireframe" onchange="setRenderMode(this);">wireframe
+		<input type="radio" name="renderingMode" value="solid" onchange="setRenderMode(this);">solid<br/>
+		<input type="file" onchange="loadFile(this.files);">
+		<p id="output"/> -->
+	</body>
+</html>
