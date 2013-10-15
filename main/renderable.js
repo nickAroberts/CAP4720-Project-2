@@ -76,85 +76,22 @@ function RenderableModel(gl,model,attribNamesInModel,attribNamesInShader){
 	  }
 	}
 
-    
-    
-    
-	var VSHADER_SOURCE =
-	  'attribute vec3 a_position;\n' +
-	  'attribute vec3 a_normal;\n' +
-            	  
-	  'uniform mat4 u_modelT;'+
-	  'uniform mat4 u_viewT;'+
-	  'uniform mat4 u_projT;'+
-	  'uniform mat4 u_NormalMatrix;'+
-      
-	  'varying vec3 v_Normal;'+
-	  'varying vec3 v_Position;'+
-      
-      
-	  'void main() {\n' +
-      
-	  'gl_Position =u_projT * u_viewT * u_modelT * vec4(a_position,1.0);\n' +
-    
-      'v_Position = vec3( u_viewT * u_modelT * vec4(a_position,1.0));\n' +
-      
-      'v_Normal = normalize(vec3(u_viewT*u_NormalMatrix * vec4(a_normal, 0.0)));\n' +
-	  '}\n';
+   // Use XHR to get text from shader script.
+   function getShaderSynch(script)
+   {
+      var   req;
 
-	// Fragment shader program
-	var FSHADER_SOURCE = 
-      'precision mediump float;\n'+
-	  
-      'uniform vec3 u_LightColor;\n' +
-      'uniform vec3 u_LightPosition;\n' +
-      
-	  'uniform vec3 u_DiffReflectance;\n' +
-	  'uniform vec3 u_AmbiReflectance;\n' +
-	  'uniform vec3 u_SpecReflectance;\n' +
-      
-	  'uniform float u_Shininess;\n' +
-      
-	  //'uniform vec3 u_Ambient;\n' +
-      
-      'varying vec3 v_Normal;\n' +
-      'varying vec3 v_Position;\n' +
-            
-	  'void main() {\n' +
+      req = new XMLHttpRequest();
+      req.open("GET", script, false);
+      req.send(null);
+      return req.responseText;
+   }
 
-      //normalize normal because it is interpolated and not 1.0
-      'vec3 normal = normalize(v_Normal);\n' +
-      
-      //calculate the light direction and make it 1.0 in length
-      //points from frag position to light position
-      'vec3 lightDirection = normalize(u_LightPosition - v_Position);\n' +
-      
-      //calculate view direction vector, when cam is 0,0,0, in view space
-      //points from frag position to camera
-      'vec3 viewDirection = normalize( - v_Position);\n' +
-      
-      //calculate reflect direction, points from frag to reflect loc
-      'vec3 reflectDirection = reflect(-lightDirection, normal);\n' +
-      
-      //the dot product of the light direction and the normal
-      'float nDotL = max(dot(lightDirection, normal), 0.0);\n' +
-      
-      //angle between view vector and reflection vector
-      'float vDotR = max(dot(viewDirection, reflectDirection), 0.0);\n' +
-      
-      //calculate the final color from diffuse and ambient reflection 
-      'vec3 diffuse = u_LightColor * u_DiffReflectance * nDotL;\n' +
+   // Get the source text of the shaders.
+   var vertexShader = getShaderSynch("shaders/vertexShader.js");
+   var fragmentShader = getShaderSynch("shaders/fragmentShader.js");
 
-      'vec3 ambient = u_AmbiReflectance;\n' +
-           
-      'vec3 specular = u_LightColor * u_SpecReflectance  * pow(vDotR, u_Shininess);\n' +
-      
-	  //'gl_FragColor = vec4(gl_FragCoord.z, gl_FragCoord.z,gl_FragCoord.z,1.0);\n' +
-	  'gl_FragColor = vec4(specular + diffuse + ambient, 1.0);\n' +
-	  //'gl_FragColor = vec4(specular, 1.0);\n' +
-	  //'gl_FragColor = vec4(1,0,1, 1.0);\n' +
-	  '}\n';
-   
-	var program = createProgram(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+	var program = createProgram(gl, vertexShader, fragmentShader);
 	if (!program) {
 		console.log('Failed to create program');
 		return false;
