@@ -13,6 +13,11 @@ var spawnDelayScalar = 1;
 var myNear = .9;
 var myFar = 3;
 var myFOV = 32;
+var tiltAngle = 0;
+var panAngle = 0;
+var dollyDisplacement = 0;
+var pedDisplacement = 0;
+var truckDisplacement = 0;
 
 var model, camera, projMatrix;
 var myIntensity = 1;
@@ -73,6 +78,12 @@ function setMyFOV(newValue)
 {
     myFOV = newValue;
     addMessage("FOV: " + myFOV);
+}
+
+function setMyTilt(newValue)
+{
+	tiltAngle = newValue;
+	addMessage("TILT:" + tiltAngle);
 }
 
 function setMyIntensity(newValue)
@@ -221,10 +232,16 @@ function main()
     {
         //gl.clearColor(myAmbient*myIntensity, myAmbient*myIntensity, myAmbient*myIntensity, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
-
-        var viewMatrix = camera.getRotatedViewMatrix(angle);
         
         camera = new Camera(gl,model.getBounds(),[0,1,0],myNear,myFar,myFOV);
+		camera.tilt(tiltAngle);
+		camera.pan(panAngle);
+		camera.dolly(dollyDisplacement);
+		camera.pedestal(pedDisplacement);
+		camera.truck(truckDisplacement);
+		
+		var viewMatrix = camera.getViewMatrix(undefined);
+		
         projMatrix = camera.getProjMatrix(myNear,myFar,myFOV);
 
                
