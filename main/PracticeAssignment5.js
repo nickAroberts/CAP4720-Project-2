@@ -29,6 +29,17 @@ var myB = 1;
 
 var myAmbient = .2;
 
+// move rate constant *placeholder, may not be used* --Sammy
+var moveRate = 4;
+
+// Arrow keys constants for movement (numbers could be changed to WASD) --Sammy
+var keys = { 	
+	/*up*/38:0,
+	/*down*/40:0,
+	/*left*/37:0,
+	/*right*/39:0
+};
+
 //This function gets called when reading a JSON file. It stores the current xml information.
 function parseJSON(jsonFile)
 {
@@ -126,6 +137,27 @@ function setMyB(newValue)
     addMessage("myB: " + myB);
 }
 
+// Placeholder for function to move camera, displays messages for now --Sammy
+function moveCamera(deltaX, deltaY) {
+	if(deltaX) {
+		if(deltaX < 0){
+			addMessage('Left was pressed');
+		}
+		else{
+			addMessage('Right was pressed');
+		}
+	}
+	if (deltaY) {
+		if(deltaY < 0){
+			addMessage('Up was pressed');
+		}
+		else{
+			addMessage('Down was pressed');
+		}
+	}
+}  
+
+
 function addMessage(message)
 {
    var st = "-"+message + "\n";
@@ -174,6 +206,22 @@ function init()
       messageField = document.getElementById("messageArea");
       document.getElementById("messageClear").setAttribute("onclick","messageField.value='';");
    }
+ 
+	// Below are two listeners for keydown and keyup, creating a mask that accounts for change in
+	// up/down and left/right at same time
+  	document.addEventListener('keydown', function(e) {
+		if(e.keyCode in keys) {
+			keys[e.keyCode] = moveRate;
+			moveCamera(keys[39] - keys[37], keys[40] - keys[38])
+		}
+	}, false);
+	document.addEventListener('keyup', function(e) {
+		if(e.keyCode in keys) {
+			keys[e.keyCode] = 0;
+			moveCamera(keys[39] - keys[37], keys[40] - keys[38])
+		}
+	}, false); 
+ 
  
    setupMessageArea();
    //setupMenu();
