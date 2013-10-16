@@ -13,6 +13,8 @@ var spawnDelayScalar = 1;
 var myNear = .9;
 var myFar = 3;
 var myFOV = 32;
+var mySpotAngle = 15;
+var useSpot = 1;
 var tiltAngle = 0;
 var panAngle = 0;
 var dollyDisplacement = 0;
@@ -44,6 +46,20 @@ function loadModel(modelfilename)
 	model = new RenderableModel(gl,parseJSON(modelfilename));
 	camera = new Camera(gl,model.getBounds(),[0,1,0],myNear,myFar,myFOV);
 	projMatrix = camera.getProjMatrix(myNear,myFar,myFOV);
+}
+
+function setSpotAngle(newValue)
+{
+    if (useSpot)
+    {
+        mySpotAngle = newValue;
+        addMessage("spot angle: " + mySpotAngle);
+    }
+    else
+    {
+        mySpotAngle = 180;
+        addMessage("spot angle: " + mySpotAngle);
+    }
 }
 
 function setSpinValue(newValue)
@@ -129,6 +145,16 @@ function menuHandler()
 function toggleLightingFlag(obj)
 {
    addMessage(obj.value+" Flag Toggled");
+   if (obj == "Spot")
+   {
+        useSpot = 1;
+   }
+   else
+   {
+        useSpot = 0;
+   }
+   
+   setSpotAngle(mySpotAngle);
 }
 
 function setRenderMode(obj)

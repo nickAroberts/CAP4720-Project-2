@@ -118,6 +118,8 @@ function RenderableModel(gl,model,attribNamesInModel,attribNamesInShader){
 	var diffReflectLoc = gl.getUniformLocation(program,"u_DiffReflectance");
 	var specReflectLoc = gl.getUniformLocation(program,"u_SpecReflectance");
 	var shininessLoc   = gl.getUniformLocation(program,"u_Shininess");
+	var spotAngleLoc   = gl.getUniformLocation(program,"u_spotAngle");
+	var spotAtLoc      = gl.getUniformLocation(program,"u_lightAt");
     
     //var ambientLocation = gl.getUniformLocation(program,"u_Ambient");
 	
@@ -179,13 +181,19 @@ function RenderableModel(gl,model,attribNamesInModel,attribNamesInShader){
 		gl.uniformMatrix4fv(pmLoc, false, pMatrix.elements);
 		gl.uniformMatrix4fv(vmLoc, false, vMatrix.elements);
         
-        //set light color to white
-        gl.uniform3f(u_LightColor, myIntensity*myR, myIntensity*myG, myIntensity*myB);
+      //set light color to white
+      gl.uniform3f(u_LightColor, myIntensity*myR, myIntensity*myG, myIntensity*myB);
         
-        //set light position to eye point (0 in cam space)
-        gl.uniform3f(u_LightPosition, 0.0, 0.0, 0.0);
+      //set light position to eye point (0 in cam space)
+      gl.uniform3f(u_LightPosition, 0.0, 0.0, 0.0);
+
+      //set u_At 
+      gl.uniform3f(spotAtLoc, center[0], center[1], center[2]);
+
+      //set u_spotAngle
+      gl.uniform1f(spotAngleLoc, mySpotAngle);
         
-        //gl.uniform3f(ambientLocation, myIntensity*ambientReflectance[0], myIntensity*myAmbient, myIntensity*myAmbient);
+      //gl.uniform3f(ambientLocation, myIntensity*ambientReflectance[0], myIntensity*myAmbient, myIntensity*myAmbient);
         
         
 		//var vpMatrix = new Matrix4(pMatrix).multiply(vMatrix); // Right multiply
